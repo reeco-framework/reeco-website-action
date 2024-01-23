@@ -12,6 +12,11 @@ on: [push]
 runs:
   using: "composite"
   steps:
+  - name: message-log
+    id: print-welcome-log
+    run: echo "Making ${{ inputs.repository }} a Research Ecosystem"
+    shell: bash
+
   - name: checkout repo content
     uses: actions/checkout@v3
 
@@ -56,12 +61,11 @@ runs:
         rm -rf .git
         rm -rf .github
         cd -
-        done < repositories.txt  
-      ./generate-repo-data.sh
+        done < ${{ inputs.repositories }}
 
-  - name: message-log
-    id: print-message-log
-    run:   echo "${{ inputs.repository }}"
+  - name: generate repositories data
+    id: generate-repositories-data
+    run: generate-repo-data.sh
     shell: bash
 
   - name: repositories.txt does not exist, check if an issue already exists
