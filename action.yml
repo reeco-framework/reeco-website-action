@@ -65,7 +65,7 @@ runs:
 
   - name: generate repositories data
     id: generate-repositories-data
-    run: generate-repo-data.sh
+    run: ./generate-repo-data.sh
     shell: bash
 
   - name: repositories.txt does not exist, check if an issue already exists
