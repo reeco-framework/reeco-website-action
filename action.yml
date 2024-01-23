@@ -32,6 +32,28 @@ runs:
     with:
       files: ${{ inputs.repositories }}
 
+  - name: repositories.txt does not exist, check if an issue already exists
+    if: steps.check_files.outputs.files_exists == 'false'
+    uses: nickderobertis/check-if-issue-exists-action@master
+    id: check_if_issue_exists
+    with:
+      repo: "${{ github.event.repository.name }}"
+      token: ${GITHUB_TOKEN}
+      title: missing repositories.txt
+      labels: bug
+
+  - name: repositories.txt and issue do not exist, create an issue
+    if: steps.check_files.outputs.files_exists == 'false' && steps.check_if_issue_exists.outputs.exists == 'false'
+    uses: JasonEtco/create-an-issue@v2
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    with:
+      filename: initialize-issue-text.md
+  
+  - name: issue created, early exit
+    if: steps.check_files.outputs.files_exists == 'false' && steps.check_if_issue_exists.outputs.exists == 'false'
+    run: # exit_with_success
+  
   - name: repositories.txt exists, read and update submodules
     if: steps.check_files.outputs.files_exists == 'true'
     id: split_repos
@@ -86,25 +108,6 @@ runs:
           echo "  link: \"http://github.com/$repo/blob/$version/\"" >> _data/repositories.yml
           echo "  raw_link: \"https://raw.githubusercontent.com/$repo/$version/\"" >> _data/repositories.yml
       done < ${{ inputs.repositories }}
-
-
-  - name: repositories.txt does not exist, check if an issue already exists
-    if: steps.check_files.outputs.files_exists == 'false'
-    uses: nickderobertis/check-if-issue-exists-action@master
-    id: check_if_issue_exists
-    with:
-      repo: "${{ github.event.repository.name }}"
-      token: ${GITHUB_TOKEN}
-      title: missing repositories.txt
-      labels: bug
-
-  - name: repositories.txt and issue do not exist, create an issue
-    if: steps.check_files.outputs.files_exists == 'false' && steps.check_if_issue_exists.outputs.exists == 'false'
-    uses: JasonEtco/create-an-issue@v2
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
-    with:
-      filename: initialize-issue-text.md
 
   - name: setup python
     uses: actions/setup-python@v4
