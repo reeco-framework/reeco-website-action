@@ -61,7 +61,7 @@ runs:
 
   - name: message-log
     id: print-message-log
-    run:   echo "${{ repository }}"
+    run:   echo "${{ inputs.repository }}"
     shell: bash
 
   - name: repositories.txt does not exist, check if an issue already exists
@@ -88,6 +88,7 @@ runs:
       python-version: '3.9'
 
   - name: install python packages
+    shell: bash
     run: |
       python -m pip install --upgrade pip
       pip install -r requirements.txt
