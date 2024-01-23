@@ -5,7 +5,9 @@ inputs:
   repositories:
     description: 'The file listing the repositories to be included in the Ecosystem Website'
     required: true
-
+  repository:
+    description: 'The Github repository running the action'
+    default: ${{ github.repository }}
 on: [push]
   # schedule:
   #   - cron: '25 9 * * *' # '0 0 * * 1' At 00:00 on Monday
@@ -62,7 +64,7 @@ jobs:
 
       - name: message-log
         id: print-message-log
-        run:   echo "${{ github.event.repository.name }}"
+        run:   echo "${{ repository }}"
         shell: bash
 
       - name: repositories.txt does not exist, check if an issue already exists
