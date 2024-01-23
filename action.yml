@@ -118,26 +118,26 @@ runs:
     shell: bash
     run: |
       python -m pip install --upgrade pip
-      pip install -r requirements.txt
+      pip install -r ${{ github.action_path }}/requirements.txt
 
   - name: validate yaml headings in md files
     shell: bash
     id: validate_yml
-    run: python validate.py
+    run: python ${{ github.action_path }}/validate.py
 
   - name: build RDF data files
     id: build_rdf_data_files
     shell: bash
     run: |
       pip install pysparql-anything
-      python build_rdf_data_files.py
+      python ${{ github.action_path }}/build_rdf_data_files.py
 
   - name: build Citation data CSV
     id: build_citation_data_file
     shell: bash
     run: |
       pip install pysparql-anything
-      python build_citation_data_file.py
+      python ${{ github.action_path }}/build_citation_data_file.py
 
   - name: get current date
     shell: bash
