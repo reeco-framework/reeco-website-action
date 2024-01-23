@@ -51,6 +51,7 @@ runs:
       filename: initialize-issue-text.md
   
   - name: issue created, early exit
+    shell: bash
     if: steps.check_files.outputs.files_exists == 'false' && steps.check_if_issue_exists.outputs.exists == 'false'
     run: # exit_with_success
   
