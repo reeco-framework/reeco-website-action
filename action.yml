@@ -1,5 +1,5 @@
-name: initialize reeco
-description: 'Drafts a GitHub release based on a newly closed milestone.'
+name: Build Ecosystem Website
+description: 'Builds the Ecosystem Website'
 author: 'Enrico Daga'
 inputs:
   repositories:
@@ -65,8 +65,8 @@ jobs:
         uses: nickderobertis/check-if-issue-exists-action@master
         id: check_if_issue_exists
         with:
-          repo: ${{ github.event.repository.name }}
-          token: ${{ github.token }}
+          repo: "${{ github.event.repository.name }}"
+          token: ${GITHUB_TOKEN}
           title: missing repositories.txt
           labels: bug
 
