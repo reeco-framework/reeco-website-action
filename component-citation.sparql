@@ -1,0 +1,54 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <https://schema.org/>
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX frapo: <http://purl.org/cerif/frapo/>
+
+SELECT ?component ?doi ?apa ?bibtex 
+WHERE {
+    SERVICE <x-sparql-anything:> { 
+	
+        SERVICE <x-sparql-anything:> { 
+	
+        	SERVICE <x-sparql-anything:> {
+		
+        		# --> Step 2. extract the YAML fontmatter from files with component annotations
+        		fx:properties fx:location ?_componentFile  .
+        		[] a xyz:YamlFrontMatter ; fx:anySlot ?yaml
+        	}
+
+        	BIND ( ?yaml as ?content ) .
+	
+        	#--> Step 3. parse the YAML content
+        	fx:properties fx:content ?content ;
+        		fx:triplifier "io.github.sparqlanything.yaml.YAMLTriplifier" ; fx:blank-nodes "false" ; fx:yaml.allow-duplicate-keys true.
+	
+    		{   # Components:
+    			# Id
+    			?x xyz:component-id ?component .
+                ?x xyz:doi ?doi .
+            }
+        }
+        ### curl -LH "Accept: text/x-bibliography; style=apa" https://doi.org/10.1126/science.169.3946.635
+
+        BIND ( CONCAT("https://doi.org/", ?doi) as ?doiLink ) .
+    	fx:properties fx:location ?doiLink ;
+            fx:http.header.accept "text/x-bibliography; style=apa" ;
+            fx:media-type "text/plain" .
+            [] rdf:_1 ?apa
+    
+        OPTIONAL{
+            SERVICE <x-sparql-anything:> { 
+            	fx:properties fx:location ?doiLink ;
+                    fx:http.header.accept "text/x-bibliography; style=bibtex" ;
+                    fx:media-type "text/plain" .
+                    [] rdf:_1 ?bibtex
+    
+            }
+        }
+    }
+}
+            
