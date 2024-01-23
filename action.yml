@@ -60,8 +60,10 @@ jobs:
             done < repositories.txt  
           ./generate-repo-data.sh
 
-      - run:   echo "${{ github.event.repository.name }}"
-          shell: bash
+      - name: message-log
+        id: print-message-log
+        run:   echo "${{ github.event.repository.name }}"
+        shell: bash
 
       - name: repositories.txt does not exist, check if an issue already exists
         if: steps.check_files.outputs.files_exists == 'false'
