@@ -119,9 +119,9 @@ runs:
 
   - name: commit and push report
     uses: Andro999b/push@v1.3
-    shell: bash
     with:
       github_token: ${{ github.token }}
+      shell: bash
       branch: main
       force: true
       message: new report - ${{ steps.date.outputs.date }}
