@@ -2,7 +2,7 @@ import pysparql_anything as pysa
 import os
 import yaml
 
-action_path = os.path.dirname(__file__))
+action_path = os.path.dirname(__file__)
 config = yaml.load(open('_config.yml','r'), Loader=yaml.Loader)
 namespace = config['rdf']['namespace']
 engine = pysa.SparqlAnything()
