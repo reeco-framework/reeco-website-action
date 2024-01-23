@@ -131,14 +131,14 @@ runs:
     shell: bash
     run: |
       pip install pysparql-anything
-      python ${{ github.action_path }}/build_rdf_data_files.py ${{ github.action_path }}
+      python ${{ github.action_path }}/build_rdf_data_files.py
 
   - name: build Citation data CSV
     id: build_citation_data_file
     shell: bash
     run: |
       pip install pysparql-anything
-      python ${{ github.action_path }}/build_citation_data_file.py ${{ github.action_path }}
+      python ${{ github.action_path }}/build_citation_data_file.py
 
   - name: get current date
     shell: bash

@@ -1,9 +1,8 @@
 import pysparql_anything as pysa
 import os
 import yaml
-import sys
 
-action_path=sys.argv[1]
+action_path = os.path.dirname(__file__))
 config = yaml.load(open('_config.yml','r'), Loader=yaml.Loader)
 namespace = config['rdf']['namespace']
 engine = pysa.SparqlAnything()
@@ -26,7 +25,7 @@ for root, dirs, files in os.walk(directory):
             os.makedirs(pth)
         if not os.path.exists(pth_includes):
             os.makedirs(pth_includes)
-        g = engine.construct(q=action_path + 'components-to-rdf.sparql', v={'componentFile': location, 'namespace': namespace}) #
+        g = engine.construct(q=action_path + '/components-to-rdf.sparql', v={'componentFile': location, 'namespace': namespace}) #
         f = open(output, 'w')
         f.write(g.serialize(format='json-ld'))
         f1 = open(output_includes, 'w')
