@@ -25,7 +25,7 @@ runs:
     id: check_files
     uses: andstor/file-existence-action@v2
     with:
-      files: ${repositories}
+      files: ${{ inputs.repositories }}
 
   - name: repositories.txt exists, read and update submodules
     if: steps.check_files.outputs.files_exists == 'true'
@@ -94,6 +94,7 @@ runs:
       pip install -r requirements.txt
 
   - name: validate yaml headings in md files
+    shell: bash
     id: validate_yml
     run: python validate.py
 
@@ -112,11 +113,13 @@ runs:
       python build_citation_data_file.py
 
   - name: get current date
+    shell: bash
     id: date
     run: echo "::set-output name=date::$(date +'%Y_%m_%d_%H-%M')"
 
   - name: commit and push report
     uses: Andro999b/push@v1.3
+    shell: bash
     with:
       github_token: ${{ github.token }}
       branch: main
