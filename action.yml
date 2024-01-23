@@ -65,8 +65,28 @@ runs:
 
   - name: generate repositories data
     id: generate-repositories-data
-    run: source generate-repo-data.sh
     shell: bash
+    run: |
+      rm -f _data/repositories.yml
+      while IFS= read -r line; do
+          if [ "$line" ]; then
+            continue
+          fi
+          #
+          IN="$line"
+          arrIN=(${IN//:/ })
+          repo=${arrIN[0]}
+          treetype=${arrIN[1]}
+          version=${arrIN[2]}
+          echo "Generate repo data: $line"
+          echo "- repo: \"$repo\"" >> _data/repositories.yml
+          echo "  type: \"$treetype\"" >> _data/repositories.yml
+          echo "  version: \"$version\"" >> _data/repositories.yml
+          echo "  url: \"http://github.com/$repo\"" >> _data/repositories.yml
+          echo "  link: \"http://github.com/$repo/blob/$version/\"" >> _data/repositories.yml
+          echo "  raw_link: \"https://raw.githubusercontent.com/$repo/$version/\"" >> _data/repositories.yml
+      done < ${{ inputs.repositories }}
+
 
   - name: repositories.txt does not exist, check if an issue already exists
     if: steps.check_files.outputs.files_exists == 'false'
