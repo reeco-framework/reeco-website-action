@@ -16,6 +16,7 @@ runs:
     uses: actions/checkout@v3
 
   - name: setup github user
+    shell: bash
     run: |
       git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
       git config --global user.name ${GITHUB_ACTOR} 
@@ -29,6 +30,7 @@ runs:
   - name: repositories.txt exists, read and update submodules
     if: steps.check_files.outputs.files_exists == 'true'
     id: split_repos
+    shell: bash
     env:
       ACCESS_TOKEN: ${GITHUB_TOKEN}
     run: |
@@ -96,12 +98,14 @@ runs:
 
   - name: build RDF data files
     id: build_rdf_data_files
+    shell: bash
     run: |
       pip install pysparql-anything
       python build_rdf_data_files.py
 
   - name: build Citation data CSV
     id: build_citation_data_file
+    shell: bash
     run: |
       pip install pysparql-anything
       python build_citation_data_file.py
