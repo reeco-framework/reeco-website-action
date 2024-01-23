@@ -128,6 +128,7 @@ runs:
 
   - name: check releases, zenodo sync, write report, PR zenodo.json to repos
     id: releases_zenodo
+    shell: bash
     run: python releases_zenodo.py
     env:
       TOKEN: ${{ github.token }}
@@ -145,6 +146,7 @@ runs:
       github_token: ${{ github.token }}
       branch: main
       force: true
+      shell: bash
       message: new release report - ${{ steps.date.outputs.date }}
 
       #- name: transform valid data and releases to RDF and store
