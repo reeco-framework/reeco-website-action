@@ -143,7 +143,7 @@ runs:
   - name: get current date
     shell: bash
     id: date
-    run: echo "::set-output name=date::$(date +'%Y_%m_%d_%H-%M')"
+    run: echo "name=date::$(date +'%Y_%m_%d_%H-%M')" >> $GITHUB_OUTPUT
 
   - name: commit and push report
     uses: Andro999b/push@v1.3
@@ -157,7 +157,7 @@ runs:
   - name: check releases, zenodo sync, write report, PR zenodo.json to repos
     id: releases_zenodo
     shell: bash
-    run: python releases_zenodo.py
+    run: python ${{ github.action_path }}/releases_zenodo.py
     env:
       TOKEN: ${{ github.token }}
 
