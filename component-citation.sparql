@@ -9,8 +9,7 @@ PREFIX frapo: <http://purl.org/cerif/frapo/>
 
 SELECT ?component ?doi ?apa ?bibtex 
 WHERE {
-    SERVICE <x-sparql-anything:> { 
-	
+    
         SERVICE <x-sparql-anything:> { 
 	
         	SERVICE <x-sparql-anything:> {
@@ -35,13 +34,16 @@ WHERE {
         ### curl -LH "Accept: text/x-bibliography; style=apa" https://doi.org/10.1126/science.169.3946.635
 
         BIND ( IF(fx:String.startsWith(?doi, "http"), ?doi, CONCAT("https://doi.org/", ?doi)) AS ?doiLink ) .
-    	fx:properties fx:location ?doiLink ;
+        OPTIONAL{
+        SERVICE SILENT <x-sparql-anything:> { 
+	
+        fx:properties fx:location ?doiLink ;
             fx:http.header.accept "text/x-bibliography; style=apa" ;
             fx:media-type "text/plain" .
             [] rdf:_1 ?apa
-    
+        }}
         OPTIONAL{
-            SERVICE <x-sparql-anything:> { 
+            SERVICE SILENT <x-sparql-anything:> { 
             	fx:properties fx:location ?doiLink ;
                     fx:http.header.accept "text/x-bibliography; style=bibtex" ;
                     fx:media-type "text/plain" .
@@ -49,6 +51,6 @@ WHERE {
     
             }
         }
-    }
+    
 }
             
