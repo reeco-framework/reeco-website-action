@@ -34,7 +34,7 @@ WHERE {
         }
         ### curl -LH "Accept: text/x-bibliography; style=apa" https://doi.org/10.1126/science.169.3946.635
 
-        BIND ( CONCAT("https://doi.org/", ?doi) as ?doiLink ) .
+        BIND ( IF(fx:String.startsWith(?doi, "http"), ?doi, CONCAT("https://doi.org/", ?doi) as ?doiLink ) .
     	fx:properties fx:location ?doiLink ;
             fx:http.header.accept "text/x-bibliography; style=apa" ;
             fx:media-type "text/plain" .

@@ -103,7 +103,7 @@ WHERE {
 		
 		#--> Step 3. parse the YAML content
 		fx:properties fx:content ?content ;
-			fx:triplifier "io.github.sparqlanything.yaml.YAMLTriplifier" ; fx:blank-nodes "false".
+			fx:triplifier "io.github.sparqlanything.yaml.YAMLTriplifier" ; fx:blank-nodes "false"; fx:yaml.allow-duplicate-keys true.
 		
 		#--> Step 4. Query the Ecosystem Schema annotations (when the schema evolves, change only this!)
 		{   # Components:
