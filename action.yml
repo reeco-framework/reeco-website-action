@@ -87,14 +87,13 @@ runs:
         done < ${{ inputs.repositories }}
 
   - name: generate repositories data
+    if: steps.check_files.outputs.files_exists == 'true'
     id: generate-repositories-data
     shell: bash
     run: |
       rm -f _data/repositories.yml
       while IFS= read -r line; do
-          if [ "$line" ]; then
-            continue
-          fi
+          [ -z "$line" ] && continue
           #
           IN="$line"
           arrIN=(${IN//:/ })
