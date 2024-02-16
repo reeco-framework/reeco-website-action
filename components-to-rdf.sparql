@@ -81,11 +81,11 @@ CONSTRUCT {
 			schema:url ?funder_url .
 
 	# Bibliography triples:
-	?main_pub_ a schema:Article .
-	?publication_ a schema:Article .
-	?main_report_ a schema:Report .
-	?report_ a schema:Report .
-	?deliverable_doc_ a schema:TechArticle .
+#	?main_pub_ a schema:Article .
+#	?publication_ a schema:Article .
+#	?main_report_ a schema:Report .
+#	?report_ a schema:Report .
+#	?deliverable_doc_ a schema:TechArticle .
 } 
 
 WHERE {
