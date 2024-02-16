@@ -8,7 +8,7 @@ PREFIX fabio: <http://purl.org/spar/fabio/>
 PREFIX frapo: <http://purl.org/cerif/frapo/>
 
 CONSTRUCT { 
-	# #--> Step 6. Construct Knowledge Graph (when the Ontology evolves, change this!!!)
+	# #--> Step 5. Construct Knowledge Graph (when the Ontology evolves, change this!!!)
 	# Container triples:
 	?container a schema:Collection, ?Type ;
 		schema:identifier ?id ;
@@ -94,18 +94,18 @@ WHERE {
 		
 		SERVICE <x-sparql-anything:> {
 			
-			# --> Step 2. extract the YAML fontmatter from files with component annotations
+			# --> Step 1. extract the YAML fontmatter from files with component annotations
 			fx:properties fx:location ?_componentFile  .
 			[] a xyz:YamlFrontMatter ; fx:anySlot ?yaml
 		}
 	
  		BIND ( ?yaml as ?content ) .
 		
-		#--> Step 3. parse the YAML content
+		#--> Step 2. parse the YAML content
 		fx:properties fx:content ?content ;
 			fx:triplifier "io.github.sparqlanything.yaml.YAMLTriplifier" ; fx:blank-nodes "false"; fx:yaml.allow-duplicate-keys true.
 		
-		#--> Step 4. Query the Ecosystem Schema annotations (when the schema evolves, change only this!)
+		#--> Step 3. Query the Ecosystem Schema annotations (when the schema evolves, change only this!)
 		{   # Components:
 			# Id
 			?x xyz:component-id ?id .
@@ -230,7 +230,7 @@ WHERE {
 		#filter (?id != "")
 	}
 	
-	#--> Step 5. Build entities (when entity IRIs design change, modify this!)
+	#--> Step 4. Build entities (when entity IRIs design change, modify this!)
 	BIND ( ?_namespace AS ?ns ) .
 	# Entities:
 	BIND ( fx:entity ( ?ns, ?container_id ) AS ?container )

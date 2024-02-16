@@ -14,14 +14,14 @@ WHERE {
 	
         	SERVICE <x-sparql-anything:> {
 		
-        		# --> Step 2. extract the YAML fontmatter from files with component annotations
+        		# --> Step 1. extract the YAML fontmatter from files with component annotations
         		fx:properties fx:location ?_componentFile  .
         		[] a xyz:YamlFrontMatter ; fx:anySlot ?yaml
         	}
 
         	BIND ( ?yaml as ?content ) .
 	
-        	#--> Step 3. parse the YAML content
+        	#--> Step 2. parse the YAML content
         	fx:properties fx:content ?content ;
         		fx:triplifier "io.github.sparqlanything.yaml.YAMLTriplifier" ; fx:blank-nodes "false" ; fx:yaml.allow-duplicate-keys true.
 	
