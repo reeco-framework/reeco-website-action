@@ -240,7 +240,7 @@ WHERE {
 	BIND ( fx:entity ( ?ns, ?wp ) AS ?w_package )
 	BIND ( fx:entity ( ?ns, ?id ) AS ?r_event )
 	BIND ( fx:entity ( ?ns, ?pilot) AS ?pilot_ )
-	BIND ( fx:entity ( ?ns, ?project) AS ?project_ )
+	BIND ( fx:entity ( ?ns, ENCODE_FOR_URI(?project)) AS ?project_ )
 	BIND ( ?main_pub AS ?main_pub_ )
 	BIND ( ?publication AS ?publication_ )
 	BIND ( ?report AS ?report_)
