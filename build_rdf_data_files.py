@@ -33,5 +33,31 @@ for root, dirs, files in os.walk(directory):
         f.write(g.serialize(format='json-ld'))
         f1 = open(output_includes, 'w')
         f1.write(g.serialize(format='json-ld'))
+### WPs
+directory = './pages/work-packages'
+for root, dirs, files in os.walk(directory):
+    for filename in files:
+        if not filename.endswith('.md'):
+            continue
+        location = os.path.join(root, filename)
+        if "/.github/" in location:
+            continue
+        pre, ext = os.path.splitext(location)
+        g = engine.construct(q=action_path + '/components-to-rdf.sparql', v={'componentFile': location, 'namespace': namespace}) #
+        allgraph = allgraph + g
+
+### Pilots
+directory = './pages/pilots'
+for root, dirs, files in os.walk(directory):
+    for filename in files:
+        if not filename.endswith('.md'):
+            continue
+        location = os.path.join(root, filename)
+        if "/.github/" in location:
+            continue
+        pre, ext = os.path.splitext(location)
+        g = engine.construct(q=action_path + '/components-to-rdf.sparql', v={'componentFile': location, 'namespace': namespace}) #
+        allgraph = allgraph + g
+
 feco = open("ecosystem.nt", 'w')
 feco.write(allgraph.serialize(format='nt'))
